@@ -1,0 +1,4 @@
+id,name,x,y,creationDate,area,population,metersAboveSeaLevel,telephoneCode,carCode,climate,height
+34,St Petersburg,30,60,2023-04-28T14:11:49.218569700+03:00[Europe/Moscow],2405,1344055,23,7812,78,RAIN_FOREST,183
+45,Veliky Novgorod,40,40,2023-04-28T14:11:49.218569700+03:00[Europe/Moscow],1303,359746,18,78162,53,MEDITERRANIAN,170
+4,Moscow,50,70,2023-04-28T14:11:49.218569700+03:00[Europe/Moscow],2808,2504860,20,7499,77,HUMIDCONTINENTAL,187
