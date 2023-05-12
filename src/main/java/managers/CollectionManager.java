@@ -45,12 +45,10 @@ public class CollectionManager {
         }
     }
 
-    public boolean deleteEntities(Collection<City> toRemove) {
+    public void deleteEntities(Collection<City> toRemove) {
         if (collection.removeAll(toRemove)){
-            System.out.println("Элементы удалены");
-            return true;
+            System.out.println("Элемент(ы) удалены");
         }
-        return false;
     }
     public boolean deleteEntity(Long id) {
         if (

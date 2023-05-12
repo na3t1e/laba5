@@ -16,7 +16,6 @@ public class ExecuteScript implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
         names.add(arg.trim());
-//        System.out.println("Выполняется скрипт");
         if (!new File(arg).exists()) {
             throw new IllegalArgumentException("Введенный файл не существует");
         }
@@ -39,24 +38,23 @@ public class ExecuteScript implements Command {
             try {
                 CommandManager commandManager = new CommandManager();
                 String[] commands = (listOfLines.get(i) + " ").split(" ", 2);
-                System.out.println(names.toString());
-                System.out.println(listOfLines);
-                if (names.contains(commands[1])) {
-                    System.out.println("Повторение");
+                if (names.contains(commands[1].trim())) {
+                    names.clear();
                     throw new IllegalArgumentException("Рекурсивный вызов файлов");
                 } else {
                     Command command = commandManager.getCommands().get(commands[0]);
-                    System.out.println(command);
                     command.execute(commands[1] == null ? "" : commands[1], manager);
                 }
+            } catch (IllegalArgumentException ia) {
+                throw new IllegalArgumentException("Рекурсивный вызов файлов");
             } catch (RuntimeException re) {
                 throw new UnknownCommand();
-            } catch(Exception e){
-            throw new RuntimeException();
+            } catch (Exception e) {
+                throw new RuntimeException();
+            }
         }
-    }
 
-}
+    }
 
     @Override
     public String name() {

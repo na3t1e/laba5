@@ -4,7 +4,7 @@ import entity.City;
 import managers.CityManager;
 import managers.CollectionManager;
 
-import java.util.Collection;
+import java.util.PriorityQueue;
 
 public class RemoveLower implements Command {
     @Override
@@ -14,14 +14,13 @@ public class RemoveLower implements Command {
             System.out.println("Введите город");
             City city = new CityManager().collectCity(manager);
             double maxArea = city.getArea();
-            Collection<City> toRemove = null;
+            PriorityQueue<City> toRemove = new PriorityQueue<>();
             manager.getCollection().forEach(value -> {
                 if (value.getArea() < maxArea) {
                     toRemove.add(value);
                 }
             });
             manager.deleteEntities(toRemove);
-//            System.out.println("Элементы удалены");
         }
     }
 
