@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.ZonedDateTime;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CityManager {
     Scanner sc = new Scanner(System.in);
@@ -18,7 +19,7 @@ public class CityManager {
             System.out.println("Введите название:");
             name = sc.nextLine().trim();
             if (name.isBlank()) {
-                System.out.println("Название не может быть пустым");
+                System.err.println("Название не может быть пустым");
             } else return name;
         }
     }
@@ -33,14 +34,14 @@ public class CityManager {
             String input = sc.nextLine().trim();
             try {
                 if (Double.parseDouble(input) < 1) {
-                    System.out.println("Значение области должно быть больше 0");
+                    System.err.println("Значение области должно быть больше 0");
                 } else {
                     return Double.parseDouble(input);
                 }
             } catch (NumberFormatException exception) {
-                System.out.println("Область должна быть типа double");
+                System.err.println("Область должна быть типа double");
             } catch (Throwable throwable) {
-                System.out.println("Непредвиденная ошибка!");
+                System.err.println("Непредвиденная ошибка!");
             }
         }
     }
@@ -51,14 +52,14 @@ public class CityManager {
             String input = sc.nextLine().trim();
             try {
                 if (Long.parseLong(input) < 1) {
-                    System.out.println("Значение населения должно быть больше 0");
+                    System.err.println("Значение населения должно быть больше 0");
                 } else {
                     return Long.parseLong(input);
                 }
             } catch (NumberFormatException exception) {
-                System.out.println("Область должна быть типа long");
+                System.err.println("Область должна быть типа long");
             } catch (Throwable throwable) {
-                System.out.println("Непредвиденная ошибка!");
+                System.err.println("Непредвиденная ошибка!");
             }
         }
     }
@@ -70,28 +71,40 @@ public class CityManager {
             try {
                 return Float.parseFloat(input);
             } catch (NumberFormatException exception) {
-                System.out.println("Область должна быть типа float");
+                System.err.println("Область должна быть типа float");
             } catch (Throwable throwable) {
-                System.out.println("Непредвиденная ошибка!");
+                System.err.println("Непредвиденная ошибка!");
             }
         }
     }
 
     //TODO: проверка на уникальность
-    private int addTelephoneCode() {
+    private int addTelephoneCode(CollectionManager manager) {
         while (true) {
             System.out.println("Введите телефонный код:");
             String input = sc.nextLine().trim();
             try {
-                if (Double.parseDouble(input) < 1 || Double.parseDouble(input) > 100000) {
-                    System.out.println("Значение телефонного кода должно быть в диапазоне [1, 100000]");
+                if (Integer.parseInt(input) < 1 || Integer.parseInt(input) > 100000) {
+                    System.err.println("Значение телефонного кода должно быть в диапазоне [1, 100000]");
                 } else {
-                    return Integer.parseInt(input);
+                    int code = Integer.parseInt(input);
+                    AtomicBoolean unique = new AtomicBoolean(true);
+                    manager.getCollection().forEach(city -> {
+                        if (city.getTelephoneCode() == code){
+                            unique.set(false);
+                        }
+                    }
+                    );
+                    if (unique.get()) return code;
+                    else {
+                        System.err.println("Значение телефонного кода должно быть уникальным");
+                        return addTelephoneCode(manager);
+                    }
                 }
             } catch (NumberFormatException exception) {
-                System.out.println("Область должна быть типа int");
+                System.err.println("Область должна быть типа int");
             } catch (Throwable throwable) {
-                System.out.println("Непредвиденная ошибка!");
+                System.err.println("Непредвиденная ошибка!");
             }
         }
     }
@@ -102,14 +115,14 @@ public class CityManager {
             String input = sc.nextLine().trim();
             try {
                 if (Double.parseDouble(input) < 1 || Double.parseDouble(input) > 1000) {
-                    System.out.println("Значение кода номера машин должно быть в диапазоне [1, 1000]");
+                    System.err.println("Значение кода номера машин должно быть в диапазоне [1, 1000]");
                 } else {
                     return Integer.parseInt(input);
                 }
             } catch (NumberFormatException exception) {
-                System.out.println("Область должна быть типа int");
+                System.err.println("Область должна быть типа int");
             } catch (Throwable throwable) {
-                System.out.println("Непредвиденная ошибка!");
+                System.err.println("Непредвиденная ошибка!");
             }
         }
     }
@@ -123,7 +136,7 @@ public class CityManager {
     }
 
 
-    public City collectCity() {
-        return new City(addName(), addCoordinates(), ZonedDateTime.now(), addArea(), addPopulation(), addMetersAboveSeaLevel(), addTelephoneCode(), addCarCode(), addClimate(), addHuman());
+    public City collectCity(CollectionManager manager) {
+        return new City(addName(), addCoordinates(), ZonedDateTime.now(), addArea(), addPopulation(), addMetersAboveSeaLevel(), addTelephoneCode(manager), addCarCode(), addClimate(), addHuman());
     }
 }

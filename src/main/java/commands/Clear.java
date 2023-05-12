@@ -2,11 +2,15 @@ package commands;
 
 import managers.CollectionManager;
 
-public class Clear implements Command{
+public class Clear implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
-        manager.clearCollection();
-        System.out.println("Коллекция очищена");
+        if (manager.getCollection().isEmpty()) {
+            System.out.println("Коллекция уже пустая");
+        } else {
+            manager.clearCollection();
+            System.out.println("Коллекция очищена");
+        }
     }
 
     @Override

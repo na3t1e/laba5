@@ -4,18 +4,25 @@ import entity.City;
 import managers.CityManager;
 import managers.CollectionManager;
 
-public class RemoveLower implements Command{
+import java.util.Collection;
+
+public class RemoveLower implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
-        System.out.println("Введите город:");
-        City city = new CityManager().collectCity();
-        double maxArea = city.getArea();
-        manager.getCollection().forEach(value -> {
-            if (city.getArea()<maxArea){
-                manager.deleteEntity(city.getId());
-            }
-        });
-        System.out.println("Элементы удалены");
+        if (manager.getCollection().isEmpty()) System.out.println("Коллеция пустая, нечего удалять");
+        else {
+            System.out.println("Введите город");
+            City city = new CityManager().collectCity(manager);
+            double maxArea = city.getArea();
+            Collection<City> toRemove = null;
+            manager.getCollection().forEach(value -> {
+                if (value.getArea() < maxArea) {
+                    toRemove.add(value);
+                }
+            });
+            manager.deleteEntities(toRemove);
+//            System.out.println("Элементы удалены");
+        }
     }
 
     @Override

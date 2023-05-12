@@ -1,13 +1,26 @@
 package commands;
 
+import exeptions.IncorrectNumberOfArguments;
 import managers.CityManager;
 import managers.CollectionManager;
 
 public class Update implements Command{
     @Override
     public void execute(String arg, CollectionManager manager) {
-        manager.updateById(Long.parseLong(arg), new CityManager().collectCity());
-        System.out.println("Элемент обновлен");
+        if (arg.isBlank()){
+            throw new IncorrectNumberOfArguments();
+        }
+        try {
+            Long id = Long.parseLong(arg.trim());
+            if (manager.checkExist(id)) {
+                manager.updateById(Long.parseLong(arg.trim()), new CityManager().collectCity(manager));
+                System.out.println("Элемент обновлен");
+            }else System.err.println("Элемент не найден");
+        }
+        catch (NumberFormatException exception) {
+            throw new IncorrectNumberOfArguments();
+        }
+
     }
 
     @Override

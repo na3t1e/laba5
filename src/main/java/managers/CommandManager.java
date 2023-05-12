@@ -1,8 +1,12 @@
 package managers;
 
 import commands.*;
+import exeptions.ExitRequest;
+import exeptions.UnknownCommand;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class CommandManager {
     private final Map<String, Command> commands = new HashMap<>();
@@ -30,15 +34,14 @@ public class CommandManager {
         return commands;
     }
 
-    public void executing(CollectionManager manager) {
+    public void executing(CollectionManager manager) throws ExitRequest {
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
-            String line = sc.nextLine();
-            String[] tokens = line.split(" ");
-            Command command = commands.get(tokens[0]);
-            command.execute(Arrays.toString(Arrays.copyOfRange(tokens, 1, tokens.length)), manager);
+            String line = sc.nextLine().trim() + " ";
+            String[] input = line.split(" ", 2);
+            Command command = commands.get(input[0]);
+            if (command == null) throw new UnknownCommand();
+            command.execute(input[1], manager);
         }
     }
-
-
 }

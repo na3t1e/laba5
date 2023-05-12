@@ -8,8 +8,11 @@ import java.util.PriorityQueue;
 public class Head implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
-        PriorityQueue<City> entity = manager.getCollection();
-        System.out.println("Первый элемент" + entity.peek());
+        PriorityQueue<City> collection = manager.getCollection();
+        if (collection.isEmpty()) System.err.println("Коллекция пустая");
+        else {
+            System.out.println("Первый элемент" + collection.peek());
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package managers;
 import entity.City;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.PriorityQueue;
 
 public class CollectionManager {
@@ -21,6 +22,10 @@ public class CollectionManager {
     public PriorityQueue<City> getCollection() {
         return collection;
     }
+    public boolean checkExist(Long id) {
+        return collection.stream()
+                .anyMatch((x) -> x.getId().equals(id));
+    }
 
 
     public void addElementToCollection(City value) {
@@ -33,14 +38,27 @@ public class CollectionManager {
     }
 
     public void updateById(Long id, City city) {
-        deleteEntity(id);
-        city.setId(id);
-        collection.add(city);
-        City.decId();
+        if (deleteEntity(id)) {
+            city.setId(id);
+            collection.add(city);
+            City.decId();
+        }
     }
 
-    public void deleteEntity(Long id) {
-        collection.removeIf(entity -> entity.getId().equals(id));
+    public boolean deleteEntities(Collection<City> toRemove) {
+        if (collection.removeAll(toRemove)){
+            System.out.println("Элементы удалены");
+            return true;
+        }
+        return false;
+    }
+    public boolean deleteEntity(Long id) {
+        if (
+        !collection.removeIf(entity -> entity.getId().equals(id))){
+            System.out.println("Элемент не существует");
+            return false;
+        }
+        return true;
     }
 
     public void clearCollection() {

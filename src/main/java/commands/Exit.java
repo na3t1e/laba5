@@ -1,12 +1,13 @@
 package commands;
 
+import exeptions.ExitRequest;
 import managers.CollectionManager;
 
-public class Exit implements Command{
+public class Exit implements Command {
     @Override
-    public void execute(String arg, CollectionManager manager) {
+    public void execute(String arg, CollectionManager manager) throws ExitRequest {
         System.out.println("Программа завершена");
-        System.exit(0);
+        throw new ExitRequest();
     }
 
     @Override

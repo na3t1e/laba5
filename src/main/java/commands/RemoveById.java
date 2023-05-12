@@ -5,8 +5,12 @@ import managers.CollectionManager;
 public class RemoveById implements Command{
     @Override
     public void execute(String arg, CollectionManager manager) {
-        manager.deleteEntity(Long.valueOf(arg));
-        System.out.println("Элемент удалён");
+        try {
+            if (manager.deleteEntity(Long.parseLong(arg.trim())))
+                System.out.println("Элемент удалён");
+        } catch (NullPointerException n) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override

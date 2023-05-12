@@ -2,14 +2,19 @@ package commands;
 
 import entity.City;
 import managers.CollectionManager;
+
 import java.util.PriorityQueue;
 
-public class Show implements Command{
+public class Show implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
-        System.out.println("Элементы");
+
         PriorityQueue<City> collection = manager.getCollection();
-        collection.forEach(System.out::println);
+        if (collection.isEmpty()) System.out.println("В коллекции нет элементов");
+        else {
+            System.out.println("Элементы");
+            collection.forEach(System.out::println);
+        }
     }
 
     @Override

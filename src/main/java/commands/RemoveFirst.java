@@ -8,9 +8,12 @@ import java.util.PriorityQueue;
 public class RemoveFirst implements Command{
     @Override
     public void execute(String arg, CollectionManager manager) {
-        PriorityQueue<City> entity = manager.getCollection();
-        System.out.println(entity.poll());
-        System.out.println("Первый элемент удалён");
+        if (manager.getCollection().isEmpty()) System.out.println("Коллеция пустая, нечего удалять");
+        else {
+            PriorityQueue<City> entity = manager.getCollection();
+            System.out.println(entity.poll());
+            System.out.println("Первый элемент удалён");
+        }
     }
 
     @Override

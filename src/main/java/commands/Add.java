@@ -6,7 +6,7 @@ import managers.CollectionManager;
 public class Add implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
-        manager.addElementToCollection(new CityManager().collectCity());
+        manager.addElementToCollection(new CityManager().collectCity(manager));
         System.out.println("Элемент добавлен в коллекцию");
     }
 
