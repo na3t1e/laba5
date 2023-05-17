@@ -3,10 +3,10 @@ package commands;
 import managers.CollectionManager;
 import managers.FileManager;
 
-public class Save implements Command{
+public class Save implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
-        FileManager.writeCSV("data.csv", manager);
+        FileManager.writeCSV(manager);
         System.out.println("Коллекция сохранена");
     }
 

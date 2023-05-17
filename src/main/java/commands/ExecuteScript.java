@@ -16,14 +16,15 @@ public class ExecuteScript implements Command {
     @Override
     public void execute(String arg, CollectionManager manager) {
         names.add(arg.trim());
-        if (!new File(arg).exists()) {
+//        "/home/studs/s268727/lab5" + arg.trim()
+        if (!new File(/*"/home/studs/s268727/lab5/" +*/ arg.trim()).exists()) {
             throw new IllegalArgumentException("Введенный файл не существует");
         }
-        if (!new File(arg).isFile()) {
+        if (!new File(arg.trim()).isFile()) {
             throw new IllegalArgumentException("Вы ввели название дериктории, а не файла");
         }
         List<String> listOfLines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(arg))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(arg.trim()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) {

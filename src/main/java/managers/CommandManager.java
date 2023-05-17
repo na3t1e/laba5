@@ -36,12 +36,22 @@ public class CommandManager {
 
     public void executing(CollectionManager manager) throws ExitRequest {
         Scanner sc = new Scanner(System.in);
-        while (sc.hasNext()) {
-            String line = sc.nextLine().trim() + " ";
-            String[] input = line.split(" ", 2);
-            Command command = commands.get(input[0]);
-            if (command == null) throw new UnknownCommand();
-            command.execute(input[1], manager);
+        boolean work = true;
+        while (work) {
+            try {
+                if (!sc.hasNext())throw new ExitRequest();
+                String line = sc.nextLine().replaceAll("\n", "").trim() + " ";
+                if (line.trim().isEmpty()) continue;
+                String[] input = line.split(" ", 2);
+                Command command = commands.get(input[0]);
+                command.execute(input[1], manager);
+            } catch (NullPointerException n) {
+                throw new UnknownCommand();
+
+            } catch (ExitRequest exitObliged) {
+                work = false;
+                throw new ExitRequest();
+            }
         }
     }
 }

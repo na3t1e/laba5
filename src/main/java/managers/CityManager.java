@@ -78,7 +78,6 @@ public class CityManager {
         }
     }
 
-    //TODO: проверка на уникальность
     private int addTelephoneCode(CollectionManager manager) {
         while (true) {
             System.out.println("Введите телефонный код:");
